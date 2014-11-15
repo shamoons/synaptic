@@ -2170,6 +2170,51 @@ for (var architecture in Architect) {
   Architect[architecture].prototype.constructor = Architect[architecture];
 }
 
+var Utils = {};
+
+Utils.createRandomWeights = function(size){
+  var array = new Float64Array(size);
+  Utils.fillRandomArrayUnsigned(array, size);
+  return array;
+}
+
+Utils.fillRandomArrayUnsigned = function(array){
+  if(array && 'length' in array && array.length)
+    for(var i = 0; i < array.length; i++){
+      array[i] = Math.random();
+    }
+}
+
+Utils.fillRandomArraySigned = function(array){
+  if(array && 'length' in array && array.length)
+    for(var i = 0; i < array.length; i++){
+      array[i] = Math.random() * 2 - 1;
+    }
+}
+
+Utils.softMaxArray = function(array){
+  // for all i ∈ array
+  // sum = ∑ array[n]^e
+  // i = î^e / sum
+  // where the result ∑ array[0..n] = 1
+
+  if(!(array && 'length' in array && array.length)) return;
+
+  var sum = 0;
+
+  // sum = ∑ array[n]^e
+  for(var i = 0; i < array.length; i++){
+    array[i] = Math.exp(array[i]);
+    sum += array[i];
+  }
+  
+  if(sum != 0){
+    for(var i = 0; i < array.length; i++) array[i] /= sum;
+  } else {
+    var div = 1 / array.length;
+    for(var i = 0; i < array.length; i++) array[i] = div;
+  }
+}
 
 /*******************************************************************************************
                                          EXPORT
@@ -2181,7 +2226,8 @@ for (var architecture in Architect) {
     Layer: Layer,
     Network: Network,
     Trainer: Trainer,
-    Architect: Architect
+    Architect: Architect,
+    Utils: Utils
   }
   if (global.define && global.define.amd) {
     define([], API);
