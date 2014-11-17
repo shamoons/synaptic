@@ -2181,18 +2181,20 @@ Utils.createRandomWeights = function(size){
 Utils.fillRandomArrayUnsigned = function(array){
   if(array && 'length' in array && array.length)
     for(var i = 0; i < array.length; i++){
-      array[i] = Math.random();
+      array[i] = 0.0001 * Math.random();
     }
+  return array;
 }
 
 Utils.fillRandomArraySigned = function(array){
   if(array && 'length' in array && array.length)
     for(var i = 0; i < array.length; i++){
-      array[i] = Math.random() * 2 - 1;
+      array[i] = 0.0002 * (Math.random() - 0.5);
     }
+  return array;
 }
 
-Utils.softMaxArray = function(array){
+Utils.softMaxArray = function(array, multiplyer){
   // for all i ∈ array
   // sum = ∑ array[n]^e
   // i = î^e / sum
@@ -2200,11 +2202,13 @@ Utils.softMaxArray = function(array){
 
   if(!(array && 'length' in array && array.length)) return;
 
+  multiplyer = multiplyer || 1;
+
   var sum = 0;
 
   // sum = ∑ array[n]^e
   for(var i = 0; i < array.length; i++){
-    array[i] = Math.exp(array[i]);
+    array[i] = Math.exp(multiplyer * array[i]);
     sum += array[i];
   }
   
@@ -2214,6 +2218,33 @@ Utils.softMaxArray = function(array){
     var div = 1 / array.length;
     for(var i = 0; i < array.length; i++) array[i] = div;
   }
+
+  return array;
+}
+
+Utils.dot = function(arrayA,arrayB){
+  // f(a,b) = ∑ a[i] * b[i]
+  var acum = 0;
+  for(var i = 0; i < arrayA.length; i++){
+    acum += arrayA[i] * arrayB[i];
+  }
+  return acum;
+}
+
+Utils.arrayMul = function(arrayA,arrayB){
+  var ret = new Float32Array(arrayA.length);
+  for(var i = 0; i < arrayA.length; i++){
+    ret[i] = arrayA[i] * arrayB[i];
+  }
+  return ret;
+}
+
+Utils.arrayAdd = function(arrayA,arrayB){
+  var ret = new Float32Array(arrayA.length);
+  for(var i = 0; i < arrayA.length; i++){
+    ret[i] = arrayA[i] + arrayB[i];
+  }
+  return ret;
 }
 
 /*******************************************************************************************
