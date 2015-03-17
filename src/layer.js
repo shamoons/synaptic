@@ -17,7 +17,7 @@ function Layer(size, label) {
   }
 
   this.propagate_string = (new Neuron()).propagate.toString();
-  this.propagate_string = this.propagate_string.split('{').slice(1).join('{').split('}');
+  this.propagate_string = this.propagate_string.split('{').slice(1).join('{').split('}').slice(0, -1).join('}');
   console.log(this.propagate_string);
   throw a;
 }
