@@ -53,9 +53,13 @@ Layer.prototype = {
       var neurons = [];
 
       for (var id = this.list.length - 1; id >= 0; id--) {
+        console.log(this.list[id].propagate.toString());
+        console.log('====');
+        console.log(this.list[id].propagate.toString().split('{').splice(0, 1));
+        throw a;
         var neuron = {
           target: target[id],
-          propagate_string: this.list[id].propagate.toString()
+          propagate_string: this.list[id].propagate.toString().split('{')[1].split('}')[0]
         }
 
         neurons.push(neuron);
@@ -63,7 +67,19 @@ Layer.prototype = {
         // neuron.propagate(rate, target[id]);
       }
 
-      console.log(neurons);
+      var parallel_neurons = new Parallel(neurons);
+      parallel_neurons.map(function(data) {
+        var propagate_fn = new Function('rate', 'target', data.propagate_string);
+        console.log(propagate_fn);
+        console.log('-==-==-=-=');
+        return true;
+      }).then(function(data) {
+        console.log('done spawn');
+      });
+
+      // Parallel
+
+      // console.log(neurons);
     } else {
       for (var id = this.list.length - 1; id >= 0; id--) {
         var neuron = this.list[id];
