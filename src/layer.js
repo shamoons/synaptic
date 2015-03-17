@@ -15,6 +15,11 @@ function Layer(size, label) {
     var neuron = new Neuron();
     this.list.push(neuron);
   }
+
+  this.propagate_string = (new Neuron()).propagate.toString();
+  this.propagate_string = this.propagate_string.split('{').slice(1).join('{').split('}');
+  console.log(this.propagate_string);
+  throw a;
 }
 
 Layer.prototype = {
@@ -55,7 +60,7 @@ Layer.prototype = {
       for (var id = this.list.length - 1; id >= 0; id--) {
         console.log(this.list[id].propagate.toString());
         console.log('====');
-        console.log(this.list[id].propagate.toString().split('{').splice(0, 1));
+        
         throw a;
         var neuron = {
           target: target[id],
