@@ -205,8 +205,10 @@ describe('Basic Neural Network with Layers', function() {
     output: outputLayer
   });
 
+  network.setOptimize(false);
 
-  it("trains a basic AND gate", function() {
+
+  it.only("trains a basic AND gate", function() {
     var and_gate_training = [{
       input: [0, 0],
       output: [0]

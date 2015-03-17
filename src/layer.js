@@ -1,5 +1,6 @@
 // import
-var Neuron = require('./neuron');
+var Neuron = require('./neuron'),
+    Parallel = require('paralleljs');
 
 /*******************************************************************************************
                                             LAYER
@@ -49,10 +50,20 @@ Layer.prototype = {
       if (target.length != this.size)
         throw "TARGET size and LAYER size must be the same to propagate!";
 
+      var neurons = [];
+
       for (var id = this.list.length - 1; id >= 0; id--) {
-        var neuron = this.list[id];
-        neuron.propagate(rate, target[id]);
+        var neuron = {
+          target: target[id],
+          propagate_string: this.list[id].propagate.toString()
+        }
+
+        neurons.push(neuron);
+        // var neuron = this.list[id];
+        // neuron.propagate(rate, target[id]);
       }
+
+      console.log(neurons);
     } else {
       for (var id = this.list.length - 1; id >= 0; id--) {
         var neuron = this.list[id];
